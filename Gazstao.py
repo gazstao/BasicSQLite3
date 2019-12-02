@@ -18,11 +18,18 @@ def insert(item, quantidade, preco):
     cur.execute("INSERT INTO store VALUES (?,?,?)",(item, quantidade,preco))
     conn.commit()
     conn.close()
-   
+
+def update(item, quantidade, preco):
+    conn = sqlite3.connect("gazstao.db")
+    cur = conn.cursor()
+    cur.execute("UPDATE store SET quantidade=?, preco=? WHERE item = ?",(quantidade,preco,item))
+    conn.commit()
+    conn.close()
+
 def delete(item):
     conn = sqlite3.connect("gazstao.db")
     cur = conn.cursor()
-    cur.execute("DELETE FROM store WHERE item=?",(item))
+    cur.execute("DELETE FROM store WHERE item=?",(item,))
     conn.commit()
     conn.close()
 
@@ -42,6 +49,7 @@ while (True):
     print ("\n1) Cadastrar Produto")
     print ("2) Ver Produtos Cadastrados")
     print ("3) Excluir Produto")
+    print ("4) Atualizar Preco e Quantidade de Produto")
     print ("9) Sair")
     i = input ("\nDigite uma opção: ")
     if i == "1":
@@ -55,6 +63,11 @@ while (True):
     elif i == "3":
         produto = input("Produto a excluir: ")
         delete(produto)
+    elif i == "4":
+        produto = input("Produto a Atualizar: ")
+        quantidade = input("Quantidade Disponivel: ")
+        preco = input ("Novo preco: ")
+        update(produto, quantidade, preco)
     elif i == "9":
         print("\nObrigado!")
         break
