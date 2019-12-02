@@ -19,6 +19,13 @@ def insert(item, quantidade, preco):
     conn.commit()
     conn.close()
    
+def delete(item):
+    conn = sqlite3.connect("gazstao.db")
+    cur = conn.cursor()
+    cur.execute("DELETE FROM store WHERE item=?",(item))
+    conn.commit()
+    conn.close()
+
 def view():
     try:
         conn = sqlite3.connect("gazstao.db")
@@ -34,8 +41,9 @@ create_table()
 while (True):
     print ("\n1) Cadastrar Produto")
     print ("2) Ver Produtos Cadastrados")
+    print ("3) Excluir Produto")
     print ("9) Sair")
-    i = input ("Digite uma opção: ")
+    i = input ("\nDigite uma opção: ")
     if i == "1":
         item = input("Nome do Item: ")
         quantidade = input("Quantidade Disponivel: ")
@@ -44,6 +52,9 @@ while (True):
     elif i == "2":
         for item in view():
             print(item)
+    elif i == "3":
+        produto = input("Produto a excluir: ")
+        delete(produto)
     elif i == "9":
         print("\nObrigado!")
         break
